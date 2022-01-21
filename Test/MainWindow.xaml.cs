@@ -12,8 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Relaxo;
 
-namespace WPFWeb
+namespace Test
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -22,8 +23,10 @@ namespace WPFWeb
     {
         public MainWindow()
         {
-            Relaxo.SimpleWebview2.WWWFolder = "www";
             InitializeComponent();
+            var webview = new SimpleWebview2();
+            SimpleWebview2.SetLocalSource(webview, "index.html");
+            root.Children.Add(webview);
         }
     }
 }

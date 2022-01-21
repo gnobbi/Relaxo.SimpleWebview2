@@ -8,6 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="root">
-        <swb:SimpleWebview2 Name="webview" LocalSource="./index.html" />
+        <swb:SimpleWebview2 Name="webview" LocalSource="Hallo was geht ab" />
     </Grid>
 </Window>

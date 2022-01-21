@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using Microsoft.Web.WebView2.Wpf;
 using System.Windows.Threading;
+using System.ComponentModel;
 
 namespace Relaxo
 {
@@ -37,22 +38,38 @@ namespace Relaxo
         {
             Trace.WriteLine("Ctor");
             InitializeAsync();
+            var pdIsAvailable = DependencyPropertyDescriptor.FromProperty(SimpleWebview2.LocalSourceProperty, typeof(SimpleWebview2));
+            pdIsAvailable.AddValueChanged(this, this.LocalSourceChangedHandler);
+
         }
 
+        private void LocalSourceChangedHandler(object? s, EventArgs e)
+        {
+            if (s is SimpleWebview2 w)
+            {
+                var html = GetLocalSource(w);
+                LocalSourceChanged(html);
+            }
+        }
+
+        private void LocalSourceChanged(string html)
+        {
+            if (IsReady)
+            {
+                if (html.EndsWith(".html") || html.EndsWith(".htm"))
+                    Source = new Uri(BaseAddress + GetLocalSource(this).Replace("./", ""));
+                else
+                    this.NavigateToString(html);
+            }
+
+        }
         private async void InitializeAsync()
         {
             await this.EnsureCoreWebView2Async();
-            // await this.EnsureCoreWebView2Async()
-            // .ContinueWith(t =>
-            // {
-            // Dispatcher.CurrentDispatcher.Invoke(() =>
-            // {
             this.CoreWebView2.SetVirtualHostNameToFolderMapping(VirtualAddress, WWWFolder, Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.Allow);
-            Trace.WriteLine(BaseAddress + GetLocalSource(this).Replace("./", ""));
-            Source = new Uri(BaseAddress + GetLocalSource(this).Replace("./", ""));
             IsReady = true;
-            // });
-            // });
+            var html = GetLocalSource(this);
+            LocalSourceChanged(html);
 
         }
     }

@@ -20,10 +20,16 @@ namespace WPFWeb
     /// </summary>
     public partial class MainWindow : Window
     {
+        // Button btn1;
+        // Relaxo.SimpleWebview2 webview2;
         public MainWindow()
         {
             Relaxo.SimpleWebview2.WWWFolder = "www";
             InitializeComponent();
+            btn1.Click += (s, e) =>
+            {
+                Relaxo.SimpleWebview2.SetLocalSource(webview2, $"<h1>Hell World {DateTime.Now} </h1>");
+            };
         }
     }
 }

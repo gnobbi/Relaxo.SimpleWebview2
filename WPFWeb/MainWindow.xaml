@@ -4,10 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFWeb"
-        xmlns:swb="clr-namespace:SimpleWebview2;assembly=SimpleWebview2"
+        xmlns:swb="clr-namespace:Relaxo;assembly=SimpleWebview2"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <swb:SimpleWebview2 Name="webview" LocalSource="./index.html" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" >
+            <Button x:Name="btn1">Button 1</Button>
+            <Button x:Name="btn2">Button 2</Button>
+            <Button x:Name="btn3">Button 3</Button>
+        </StackPanel>
+        <swb:SimpleWebview2 Grid.Row="1" Name="webview" LocalSource="./index.html" />
+        <swb:SimpleWebview2 Grid.Row="1" Grid.Column="1" Name="webview2" LocalSource="Hello World" />
     </Grid>
 </Window>

@@ -4,6 +4,7 @@ using System.Windows;
 using Microsoft.Web.WebView2.Wpf;
 using System.Windows.Threading;
 using System.ComponentModel;
+using System.IO;
 
 namespace Relaxo
 {
@@ -52,25 +53,42 @@ namespace Relaxo
             }
         }
 
-        private void LocalSourceChanged(string html)
+        private void LocalSourceChanged(string htmlOrUri)
         {
             if (IsReady)
             {
-                if (html.EndsWith(".html") || html.EndsWith(".htm"))
-                    Source = new Uri(BaseAddress + GetLocalSource(this).Replace("./", ""));
+                if (!htmlOrUri.StartsWith("http") && (htmlOrUri.EndsWith(".html") || htmlOrUri.EndsWith(".htm")))
+                {
+                    if (File.Exists(htmlOrUri))
+                    {
+                        // "./../www/index.html" -> "index.html"
+                        var relativePath = htmlOrUri.Replace("../", "").Replace("./", "").Replace($"{WWWFolder}/", "");
+                        Source = new Uri(BaseAddress + relativePath);
+                    }
+                    else
+                    {
+                        throw new FileNotFoundException("File not found Exception", htmlOrUri);
+                    }
+                }
+                else if (htmlOrUri.StartsWith("http"))
+                {
+                    Source = new Uri(htmlOrUri);
+                }
                 else
-                    this.NavigateToString(html);
+                {
+                    this.NavigateToString(htmlOrUri);
+                }
             }
 
         }
         private async void InitializeAsync()
         {
             await this.EnsureCoreWebView2Async();
-            this.CoreWebView2.SetVirtualHostNameToFolderMapping(VirtualAddress, WWWFolder, Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.Allow);
+            if (Directory.Exists(WWWFolder))
+                this.CoreWebView2.SetVirtualHostNameToFolderMapping(VirtualAddress, WWWFolder, Microsoft.Web.WebView2.Core.CoreWebView2HostResourceAccessKind.Allow);
             IsReady = true;
             var html = GetLocalSource(this);
             LocalSourceChanged(html);
-
         }
     }
 }

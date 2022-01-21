@@ -12,9 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Relaxo;
 
-namespace Test
+namespace Relaxo
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -24,9 +23,6 @@ namespace Test
         public MainWindow()
         {
             InitializeComponent();
-            var webview = new SimpleWebview2();
-            SimpleWebview2.SetLocalSource(webview, "index.html");
-            root.Children.Add(webview);
         }
     }
 }

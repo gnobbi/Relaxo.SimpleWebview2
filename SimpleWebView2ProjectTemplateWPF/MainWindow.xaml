@@ -1,13 +1,13 @@
-﻿<Window x:Class="Test.MainWindow"
+﻿<Window x:Class="Relaxo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Test"
-        xmlns:swb="clr-namespace:Relaxo;assembly=SimpleWebview2"
+        xmlns:local="clr-namespace:Relaxo"
+        xmlns:relaxo="clr-namespace:Relaxo;assembly=SimpleWebview2"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid x:Name="root">
-        <swb:SimpleWebview2 Name="webview" LocalSource="Hallo was geht ab" />
+        <relaxo:SimpleWebview2 Name="webview" LocalSource="./www/index.html" />
     </Grid>
 </Window>
